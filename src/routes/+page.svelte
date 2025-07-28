@@ -4,7 +4,7 @@
 
   let password = "";
   let file_path = "";
-  let current_status = "Drop a file or ente a path";
+  let current_status = "Drop a file or enter a path";
 
   async function callEncrypt() {
     try {
@@ -43,6 +43,12 @@
 </main>
 
 <style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
   :root {
     font-family: Avenir, Inter, Helvetica, Arial, sans-serif;
     font-size: 16px;
@@ -65,16 +71,6 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
-  }
-
-  a {
-    font-weight: 500;
-    color: #646cff;
-    text-decoration: inherit;
-  }
-
-  h1 {
     text-align: center;
   }
 
@@ -113,10 +109,6 @@
     :root {
       color: #f6f6f6;
       background-color: #2f2f2f;
-    }
-
-    a:hover {
-      color: #24c8db;
     }
 
     input,
