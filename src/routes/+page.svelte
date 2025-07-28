@@ -1,8 +1,46 @@
 <script lang="ts">
   import { invoke } from "@tauri-apps/api/core";
+  import { listen } from "@tauri-apps/api/event";
+
+  let password = "";
+  let file_path = "";
+  let current_status = "Drop a file or ente a path";
+
+  async function callEncrypt() {
+    try {
+      await invoke("encrypt_file", { path: file_path, password });
+      current_status = `Encrypted: ${file_path}`;
+    } catch (e) {
+      current_status = `Error: ${e}`;
+    }
+  }
+
+  async function callDecrypt() {
+    try {
+      await invoke("decrypt_file", { path: file_path, password });
+      current_status = `Decrypted: ${file_path}`;
+    } catch (e) {
+      current_status = `Error: ${e}`;
+    }
+  }
+
+  listen("tauri://file-drop", async (event: any) => {
+    file_path = (event.payload as string[])[0];
+    current_status = `Dropped: ${file_path}`;
+  });
 </script>
 
-<main class="container"></main>
+<main class="container">
+  <input placeholder="Enter path or Drop a file" bind:value={file_path} />
+  <input type="password" placeholder="Enter password" bind:value={password} />
+  <button on:click={callEncrypt} disabled={!file_path || !password}
+    >Encrypt File</button
+  >
+  <button on:click={callDecrypt} disabled={!file_path || !password}
+    >Decrypt File</button
+  >
+  <p>{current_status}</p>
+</main>
 
 <style>
   :root {
